@@ -11,6 +11,9 @@ builds:
     goarm:
       - "6"
       - "7"
+    goarch:
+      - amd64
+      - arm64
     ldflags:
       - -s -w
 dockers:
