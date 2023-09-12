@@ -7,6 +7,9 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/systemli/dereferrer/middleware"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -37,10 +40,23 @@ func main() {
 	if os.Getenv("LISTEN_ADDR") != "" {
 		listenAddr = os.Getenv("LISTEN_ADDR")
 	}
+	metricsAddr := ":8081"
+	if os.Getenv("METRICS_ADDR") != "" {
+		metricsAddr = os.Getenv("METRICS_ADDR")
+	}
 
 	logger.Info("Starting server", zap.String("listenAddr", listenAddr))
+	go func() {
+		m := chi.NewRouter()
+		m.Handle("/metrics", promhttp.Handler())
+		log.Fatal(http.ListenAndServe(metricsAddr, m))
+	}()
+	r := chi.NewRouter()
+	p := middleware.NewPrometheus()
+	r.Use(p)
+	r.Get("/", handler)
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(listenAddr, nil))
+	log.Fatal(http.ListenAndServe(listenAddr, r))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
