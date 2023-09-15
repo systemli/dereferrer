@@ -4,6 +4,10 @@
 
 This small service aims to prevent links to be tracked by the website they are linking to. It takes the URL as a parameter and returns a redirect to the URL with the referrer header removed. Especially useful for privacy-aware sites.
 
+Imagine you serve this service on `https://dereferrer.example.com` and you want to link to `https://example.com`. Instead of linking to `https://example.com` directly, you link to `https://dereferrer.example.com/?https%3A%2F%2Fexample.com`. The service will then redirect you to `https://example.com` with the referrer header replaced with `https://dereferrer.example.com`.
+
+Important: The query parameter should be URL encoded.
+
 ## Usage
 
 ### Environment Variables
@@ -35,3 +39,22 @@ docker.io/systemli/dereferrer:latest
 go install github.com/systemli/dereferrer@latest
 dereferrer
 ```
+
+## Metrics
+
+The service exposes metrics on the `/metrics` endpoint on port `8081`. The metrics are compatible with Prometheus.
+
+Exported metrics:
+
+```text
+# HELP requests_total Number of requests
+# TYPE requests_total counter
+requests_total{status="200"} 6145
+requests_total{status="400"} 619
+requests_total{status="404"} 651
+requests_total{status="405"} 35
+```
+
+## License
+
+This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
