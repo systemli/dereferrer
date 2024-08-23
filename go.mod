@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/go-chi/chi/v5 v5.1.0
-	github.com/prometheus/client_golang v1.20.0
+	github.com/prometheus/client_golang v1.20.1
 	go.uber.org/zap v1.27.0
 )
 
