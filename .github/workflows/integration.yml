@@ -24,7 +24,7 @@ jobs:
         run: go test -coverprofile=coverage.txt -covermode=atomic ./...
 
       - name: Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.txt
@@ -45,7 +45,7 @@ jobs:
           cache: true
 
       - name: Build Releases
-        uses: goreleaser/goreleaser-action@v6.0.0
+        uses: goreleaser/goreleaser-action@v6.1.0
         with:
           version: "~> v2"
           args: release --clean --snapshot
