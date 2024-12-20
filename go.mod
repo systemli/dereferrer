@@ -3,7 +3,7 @@ module github.com/systemli/dereferrer
 go 1.21
 
 require (
-	github.com/go-chi/chi/v5 v5.1.0
+	github.com/go-chi/chi/v5 v5.2.0
 	github.com/prometheus/client_golang v1.20.5
 	go.uber.org/zap v1.27.0
 )
