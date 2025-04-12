@@ -76,7 +76,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte(fmt.Sprintf(`<html lang="en">
+		fmt.Fprintf(w, `<html lang="en">
 		<head>
 			<meta charset="utf-8">
 			<meta http-equiv="refresh" content="0; URL=%s"/>
@@ -87,7 +87,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			<p>Redirecting to <a href="%s">%s</a></p>
 		</div>
 		</body>
-		</html>`, decodedUrl, decodedUrl, decodedUrl, decodedUrl)))
+		</html>`, decodedUrl, decodedUrl, decodedUrl, decodedUrl)
 		return
 	}
 
